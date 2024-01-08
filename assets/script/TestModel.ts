@@ -2,18 +2,21 @@
  * @Author: zpz
  * @Date: 2023-12-15 15:27:07
  * @LastEditors: zpz
- * @LastEditTime: 2023-12-21 11:54:04
+ * @LastEditTime: 2024-01-08 16:18:35
  * @Description:  
  */
 import { Mobx } from "./GameApp";
 import ModelBase from "./ModelBase";
+import RoleData from "./RoleData";
 
 export default class TestModel extends ModelBase {
-    public _testLv: number = 0;
-    public _testArr: number[] = [];
-    public _testObj: any = {};
+    private _testLv: number = 0;
+    private _testArr: number[] = [];
+    private _testObj: {name: string, age: number} = {name: "zpz", age: 18};
 
     public tmpv: number = 0;
+
+    public roleData: RoleData = null;
 
     constructor() {
         super();
@@ -35,15 +38,19 @@ export default class TestModel extends ModelBase {
         this._testArr = value;
     }
     
-    public get testObj(): any {
+    public get testObj(): {name: string, age: number} {
         return this._testObj;
     }
-    public set testObj(value: any) {
+    public set testObj(value: {name: string, age: number}) {
         this._testObj = value;
     }
 
     public dosomething(): void {
         console.log('sss');
+        this.roleData.Id++;
+        this.roleData.Name = "zpz" + this.roleData.Id;
+        this.roleData.SId++;
+        console.log('roleData:', this.roleData)
     }
 
     public getsomething(): any {

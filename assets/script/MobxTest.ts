@@ -1,4 +1,5 @@
 import { Mobx } from "./GameApp";
+import RoleData from "./RoleData";
 
 export default class MobxTest {
     public _testLv: number = 0;
@@ -6,6 +7,7 @@ export default class MobxTest {
     public _testObj: any = {};
 
     public tmpv: number = 0;
+    public roleData: RoleData = new RoleData();
 
     constructor() {
         // this.mob(this);
@@ -35,7 +37,9 @@ export default class MobxTest {
     }
 
     public dosomething(): void {
-        console.log('sss');
+        this.roleData.Id++;
+        this.roleData.Name = "zpz" + this.roleData.Id;
+        this.roleData.SId++;
     }
 
     public getsomething(): any {
