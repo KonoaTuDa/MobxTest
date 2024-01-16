@@ -2,7 +2,7 @@
  * @Author: zpz
  * @Date: 2023-12-15 15:24:37
  * @LastEditors: zpz
- * @LastEditTime: 2024-01-08 16:54:36
+ * @LastEditTime: 2024-01-15 18:52:37
  * @Description:  
  */
 /*
@@ -99,7 +99,7 @@ export default class ModelBase {
     public mob(clz: any): void {
         const map = makeAutoObservable(clz);
         const target = Mobx.makeObservable(clz, map);
-        // const testm = new MobxTest();
-        // const t2 = testm.mob(testm);
+        const testm = new MobxTest();
+        const t2 = testm.mob(testm);
     }
 }

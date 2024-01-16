@@ -2,18 +2,19 @@
  * @Author: zpz
  * @Date: 2023-12-15 15:28:26
  * @LastEditors: zpz
- * @LastEditTime: 2024-01-08 16:41:20
+ * @LastEditTime: 2024-01-15 21:58:48
  * @Description:  
  */
 import * as cc from 'cc';
 import TestModel from './TestModel';
 import { Mobx } from './GameApp';
 import MobxTest from './MobxTest';
+import ViewBase from './ViewBase';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Test extends cc.Component {
+export default class Test extends ViewBase {
     @property(cc.Button)
     BtnAdd: cc.Button = null;
     @property(cc.Button)
@@ -25,22 +26,42 @@ export default class Test extends cc.Component {
 
     private _t: MobxTest = null;
 
+    private _flag: boolean = false;
+
     protected onLoad(): void {
         this._model = new TestModel();
-        this._t = new MobxTest();
-        Mobx.autorun(() => {
-            console.log('testLv: ', this._model.testLv);
+        // this._t = new MobxTest();
+
+        this.autorun(() => { 
+            this.showTestLv();
         });
-        Mobx.autorun(() => {
-            console.log('testArr: ', this._model.testArr.length);
+
+        this.reaction(() => {
+            return this._model.testArr.length;
+        }, (args) => { 
+            this.showTestArr(args); 
         });
-        Mobx.autorun(() => {
-            console.log('testObj: ', this._model.testObj.name);
-        });
-        Mobx.autorun(() => {
-            console.log('testObj: ', this._model.testObj.age);
+        
+        this.when(() => {
+            return this._model.testObj.age <= 2;
+        }, () => { 
+            this.showTestObj(); 
         });
     }
+
+    private showTestLv(): void {
+        console.log('testLv: ', this._model.testLv);
+    }
+
+    private showTestArr(length: number): void {
+        console.log('testArr: ', length);
+    }
+
+    private showTestObj(): void {
+        console.log('testObj: ', this._model.testObj);
+        this._flag = true;
+    }
+
 
     public onBtnAdd(): void {
         this._model.testLv++;
@@ -52,6 +73,11 @@ export default class Test extends cc.Component {
     }
 
     public onBtnChangeObj(): void {
+        if (this._flag) {
+            this.node.removeFromParent();
+            this.node.destroy();
+            return;
+        }
         this._model.testObj.name = Math.random().toString();
         this._model.testObj.age = Math.random() * 10;
     }
