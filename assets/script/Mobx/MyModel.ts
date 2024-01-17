@@ -1,29 +1,22 @@
 /*
  * @Author: zpz
- * @Date: 2023-12-15 15:27:07
+ * @Date: 2024-01-16 18:14:44
  * @LastEditors: zpz
- * @LastEditTime: 2024-01-08 16:18:35
+ * @LastEditTime: 2024-01-17 15:23:50
  * @Description:  
  */
-import { Mobx } from "./GameApp";
 import ModelBase from "./ModelBase";
-import RoleData from "./RoleData";
 
-export default class TestModel extends ModelBase {
+export default class MyModel extends ModelBase {
     private _testLv: number = 0;
     private _testArr: number[] = [];
-    private _testObj: {name: string, age: number} = {name: "zpz", age: 18};
-
-    public tmpv: number = 0;
-
-    public roleData: RoleData = null;
+    private _testObj: {name: string, age: number} = {name: "my", age: 0};
 
     constructor() {
         super();
-        this.mob(this);
+        this.makeAutoObservable(this);
     }
 
-    
     public get testLv(): number {
         return this._testLv;
     }
@@ -45,16 +38,8 @@ export default class TestModel extends ModelBase {
         this._testObj = value;
     }
 
-    public dosomething(): void {
-        console.log('sss');
-        this.roleData.Id++;
-        this.roleData.Name = "zpz" + this.roleData.Id;
-        this.roleData.SId++;
-        console.log('roleData:', this.roleData)
-    }
-
-    public getsomething(): any {
-        let obj: any = {};
-        return obj;
+    public doSomething(): void {
+        this.testObj.name = Math.random().toString();
+        this.testObj.age = Math.random() * 10;
     }
 }
